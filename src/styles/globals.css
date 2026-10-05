@@ -1,0 +1,145 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   DESIGN TOKENS  (space-separated RGB so Tailwind opacity utilities work)
+   Light is the default. Wrap any section in .theme-dark for the navy variant.
+   ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    --bg: 251 250 248;        /* warm white  #FBFAF8 */
+    --surface: 255 255 255;   /* cards       #FFFFFF */
+    --surface-2: 244 241 236; /* soft band   #F4F1EC */
+    --fg: 17 23 43;           /* headings    #11172B */
+    --fg-soft: 51 59 82;      /* body strong #333B52 */
+    --muted: 91 97 118;       /* body        #5B6176 (5.9:1) */
+    --subtle: 122 128 149;    /* meta/hints  #7A8095 */
+    --line: 231 227 219;      /* borders     #E7E3DB */
+    --accent: 180 83 9;       /* orange text #B45309 (4.8:1 on bg) */
+    --success: 22 163 74;
+    --warning: 217 119 6;
+    --danger: 220 38 38;
+    color-scheme: light;
+  }
+
+  .theme-dark {
+    --bg: 11 16 32;           /* #0B1020 */
+    --surface: 18 26 51;      /* #121A33 */
+    --surface-2: 14 21 43;    /* #0E152B */
+    --fg: 245 247 251;
+    --fg-soft: 213 218 232;
+    --muted: 163 171 194;     /* 8.3:1 */
+    --subtle: 128 137 163;
+    --line: 38 48 77;
+    --accent: 255 166 38;     /* #FFA626 (9.7:1) */
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg font-sans text-base leading-relaxed text-muted antialiased;
+    text-rendering: optimizeLegibility;
+    /* Very long words / e-mail addresses wrap instead of pushing the page sideways on small phones */
+    overflow-wrap: anywhere;
+  }
+
+  /* Last-resort guard against sideways scrolling. `clip` (unlike `hidden`) keeps position:sticky working. */
+  html, body { max-width: 100%; overflow-x: clip; }
+
+  img, svg, video { max-width: 100%; }
+
+  h1, h2, h3, h4 {
+    @apply font-display text-fg;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  h1 { line-height: 1.08; }
+  h2, h3 { line-height: 1.2; }
+  p { text-wrap: pretty; }
+
+  ::selection { @apply bg-primary/30 text-fg; }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-bg;
+  }
+
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--line)) transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--line)); border-radius: 8px; border: 2px solid rgb(var(--bg)); }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(var(--subtle)); }
+}
+
+/* ------------------------------------------------------------------
+   COMPONENT PRIMITIVES
+   ------------------------------------------------------------------ */
+@layer components {
+  .container-custom { @apply mx-auto w-full max-w-[1200px] px-5 sm:px-6 lg:px-8; }
+
+  /* Vertical rhythm for page sections */
+  .section { @apply py-16 md:py-24; }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-accent;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply h-px w-6 bg-accent/60;
+  }
+
+  .eyebrow-center::after {
+    content: '';
+    @apply h-px w-6 bg-accent/60;
+  }
+
+  .surface {
+    @apply rounded-2xl border border-line bg-surface shadow-card;
+  }
+  .surface-hover {
+    @apply transition duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lift;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent;
+  }
+  .theme-dark .gradient-text {
+    @apply from-primary-300 to-primary-500;
+  }
+
+  .icon-tile {
+    @apply grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-primary/15 text-accent;
+  }
+
+  .bg-grid {
+    background-image: radial-gradient(rgb(var(--fg) / 0.12) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at 50% 0%, #000 25%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 0%, #000 25%, transparent 72%);
+  }
+
+  .skeleton {
+    @apply relative overflow-hidden rounded-xl bg-fg/5;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-fg/5 to-transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
