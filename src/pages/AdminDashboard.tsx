@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ['admin', 'payments', page],
-    queryFn: () => adminService.getPayments(page, PAGE_SIZE)
+    queryFn: () => adminService.payments({ page, limit: PAGE_SIZE })
   });
   const payments = data?.data ?? [];
   const totalPages = Math.max(1, Math.ceil((data?.meta.total ?? 0) / PAGE_SIZE));

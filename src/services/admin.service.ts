@@ -55,6 +55,9 @@ export interface AdminPayment {
   id: string;
   userName: string;
   userEmail: string;
+  userPhone?: string;
+  courseSlug?: string;
+  courseName?: string;
   planName: string;
   amount: number;
   currency: string;
