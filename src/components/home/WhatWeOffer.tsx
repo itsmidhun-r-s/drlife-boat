@@ -8,12 +8,15 @@ const WhatWeOffer = () => (
       <SectionHeading eyebrow="What we offer" title={<>Everything you need to <span className="gradient-text">pass with confidence</span></>} />
 
       <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3 grid-cols-1">
-        {WHAT_WE_OFFER.map(({ icon: Icon, title, description }, i) => (
+        {WHAT_WE_OFFER.map(({ image, title, description }, i) => (
           <Reveal key={title} delay={(i % 3) * 0.06}>
             <article className="surface surface-hover h-full p-6">
-              <span className="icon-tile">
-                <Icon className="h-5 w-5" aria-hidden />
-              </span>
+              <img
+                src={image}
+                alt={title}
+                loading="lazy"
+                className="aspect-[4/3] w-full rounded-2xl object-cover object-[center_35%] shadow-sm"
+              />
               <h3 className="mt-5 text-lg font-bold">{title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
             </article>

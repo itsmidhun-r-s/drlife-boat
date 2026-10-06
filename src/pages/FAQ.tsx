@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, CheckCircle2, Mail } from 'lucide-react';
 import SEO from '../components/common/SEO';
@@ -46,6 +46,8 @@ const FactList = ({ title, facts, text }: { title: string; facts: Fact[]; text: 
 
 const FAQ = () => {
   const [active, setActive] = useState(FAQ_SECTIONS[0].id);
+  const sectionNavRef = useRef<HTMLDivElement>(null);
+  const activeSectionLinkRef = useRef<HTMLAnchorElement>(null);
 
   // Highlight the section currently in view in the sticky nav
   useEffect(() => {
@@ -58,6 +60,18 @@ const FAQ = () => {
     return () => io.disconnect();
   }, []);
 
+  useEffect(() => {
+    const nav = sectionNavRef.current;
+    const activeLink = activeSectionLinkRef.current;
+    if (!nav || !activeLink) return;
+
+    const navBounds = nav.getBoundingClientRect();
+    const linkBounds = activeLink.getBoundingClientRect();
+    const linkOffset = linkBounds.left - navBounds.left - (nav.clientWidth - linkBounds.width) / 2;
+
+    nav.scrollTo({ left: nav.scrollLeft + linkOffset, behavior: 'smooth' });
+  }, [active]);
+
   return (
     <>
       <SEO
@@ -66,7 +80,7 @@ const FAQ = () => {
       />
 
       {/* Overview */}
-      <section id="overview" className="relative overflow-hidden border-b border-line">
+      <section id="overview" className="relative scroll-mt-28 overflow-hidden border-b border-line">
         <div aria-hidden className="bg-grid pointer-events-none absolute inset-0" />
         <div aria-hidden className="pointer-events-none absolute -top-32 left-1/2 h-72 w-[40rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
         <div className="container-custom relative grid gap-10 py-14 md:py-20 lg:grid-cols-[1.1fr_0.9fr] grid-cols-1">
@@ -96,12 +110,13 @@ const FAQ = () => {
       </section>
 
       {/* Sticky in-page nav */}
-      <nav aria-label="On this page" className="sticky top-[68px] z-30 border-b border-line bg-bg/90 backdrop-blur-xl">
-        <div className="container-custom flex gap-1 overflow-x-auto py-2.5">
+      <nav aria-label="On this page" className="sticky top-[68px] z-30 border-b border-line bg-bg shadow-sm">
+        <div ref={sectionNavRef} className="container-custom flex gap-1 overflow-x-auto py-2.5">
           {FAQ_SECTIONS.map((s) => (
             <a
               key={s.id}
               href={`#${s.id}`}
+              ref={active === s.id ? activeSectionLinkRef : undefined}
               className={cn(
                 'shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors',
                 active === s.id ? 'bg-primary text-ink-950' : 'text-muted hover:text-fg'
@@ -116,7 +131,7 @@ const FAQ = () => {
       <WhyAustralia />
 
       {/* Why take AMC */}
-      <section id="why-amc" className="border-y border-line bg-surface-2 section">
+      <section id="why-amc" className="scroll-mt-28 border-y border-line bg-surface-2 section">
         <div className="container-custom">
           <SectionHeading
             eyebrow="Why AMC"
@@ -149,7 +164,7 @@ const FAQ = () => {
       </section>
 
       {/* About the course */}
-      <section id="course" className="section">
+      <section id="course" className="scroll-mt-28 section">
         <div className="container-custom grid gap-10 lg:grid-cols-2 grid-cols-1">
           <div>
             <SectionHeading align="left" eyebrow="About the course" title={<>About <span className="gradient-text">The Course</span></>} />
@@ -176,7 +191,7 @@ const FAQ = () => {
       </section>
 
       {/* About the exam */}
-      <section id="exam" className="border-y border-line bg-surface-2 section">
+      <section id="exam" className="scroll-mt-28 border-y border-line bg-surface-2 section">
         <div className="container-custom">
           <SectionHeading eyebrow="About the exam" title={<>About the <span className="gradient-text">AMC Examination</span></>} />
           <div className="mx-auto mt-8 max-w-3xl space-y-4 text-center leading-relaxed text-muted">
@@ -201,7 +216,7 @@ const FAQ = () => {
       </section>
 
       {/* Eligibility */}
-      <section id="eligibility" className="section">
+      <section id="eligibility" className="scroll-mt-28 section">
         <div className="container-custom grid gap-10 lg:grid-cols-2 grid-cols-1">
           <div>
             <SectionHeading align="left" eyebrow="Eligibility" title={<>AMC Exam <span className="gradient-text">Eligibility Criteria</span></>} />
@@ -227,7 +242,7 @@ const FAQ = () => {
       </section>
 
       {/* Procedure */}
-      <section id="procedure" className="border-y border-line bg-surface-2 section">
+      <section id="procedure" className="scroll-mt-28 border-y border-line bg-surface-2 section">
         <div className="container-custom">
           <SectionHeading eyebrow="Procedure" title={<>Procedure for <span className="gradient-text">AMC Exam</span></>} description={PROCEDURE.intro} />
           <h3 className="mt-14 text-center text-xl font-bold">{PROCEDURE.pathwaysTitle}</h3>
@@ -247,7 +262,7 @@ const FAQ = () => {
       <HowItWorks />
 
       {/* Exam format */}
-      <section id="format" className="border-y border-line bg-surface-2 section">
+      <section id="format" className="scroll-mt-28 border-y border-line bg-surface-2 section">
         <div className="container-custom">
           <SectionHeading eyebrow="Exam format" title={<>Exam <span className="gradient-text">Format</span></>} description={EXAM_FORMAT.intro} />
           <div className="mt-12 grid gap-6 lg:grid-cols-2 grid-cols-1">
@@ -258,7 +273,7 @@ const FAQ = () => {
       </section>
 
       {/* FAQs */}
-      <section id="faqs" className="section">
+      <section id="faqs" className="scroll-mt-28 section">
         <div className="container-custom max-w-3xl">
           <SectionHeading
             eyebrow="FAQ"

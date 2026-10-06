@@ -6,11 +6,10 @@ import {
   Crosshair,
   FileText,
   Globe2,
-  GraduationCap,
   Infinity as InfinityIcon,
+  Lightbulb,
   LayoutDashboard,
   Library,
-  Lightbulb,
   LifeBuoy,
   ListChecks,
   Map as MapIcon,
@@ -26,6 +25,13 @@ import {
   Users,
   type LucideIcon
 } from 'lucide-react';
+
+import expertFacultyImage from '../../assets/home/Expert Faculty.avif';
+import conceptBasedLearningImage from '../../assets/home/Concept-Based Learning & High-Yield Content.jpg';
+import interactiveLearningImage from '../../assets/home/interactive learning.jpg';
+import studentPortalImage from '../../assets/home/student_portal.jpg';
+import qbankImage from '../../assets/home/Comprehensive Qbanks & Recalls.webp';
+import assessmentsImage from '../../assets/home/Weekly Assessments & Progress Tracking.webp';
 
 /* ------------------------------------------------------------------ */
 /* Homepage copy — carried over from the WordPress homepage.           */
@@ -104,38 +110,38 @@ export const WHAT_WE_DO = {
   }
 };
 
-export const WHAT_WE_OFFER: { icon: LucideIcon; title: string; description: string }[] = [
+export const WHAT_WE_OFFER: { image: string; title: string; description: string }[] = [
   {
-    icon: GraduationCap,
+    image: expertFacultyImage,
     title: 'Expert Faculty',
     description:
       'Learn from highly experienced doctors and educators who specialize in AMC/PLAB exam content and strategy. 4 expert-led sessions weekly — dive deep into high-yield AMC/PLAB topics, engage in recall-based discussions, and get your questions answered in real time.'
   },
   {
-    icon: Lightbulb,
+    image: conceptBasedLearningImage,
     title: 'Concept-Based Learning & High-Yield Content',
     description: 'Our curriculum is based on recurring themes and recall questions from previous AMC exams.'
   },
   {
-    icon: MessagesSquare,
+    image: interactiveLearningImage,
     title: 'Interactive Learning',
     description:
       'Face-to-face interaction for better conceptual clarity and active learning. Engage in live discussions with experienced mentors, Q&A sessions, and concept-based lectures that promote real understanding — not just memorization.'
   },
   {
-    icon: LayoutDashboard,
+    image: studentPortalImage,
     title: 'Student Portal',
     description:
       'Access our comprehensive digital platform designed to assist and optimize your AMC exam preparation journey. Gain secure, personalized log in to a specialized dashboard customized to your individual learning path. Track your progress, access exclusive resources, and stay organized all in one place.'
   },
   {
-    icon: ListChecks,
+    image: qbankImage,
     title: 'Comprehensive Qbanks & Recalls',
     description:
       'Access a vast library of AMC/PLAB-style MCQs, past year recalls, and mock exams with detailed explanations, plus proven exam-oriented strategies for a targeted approach.'
   },
   {
-    icon: BarChart3,
+    image: assessmentsImage,
     title: 'Weekly Assessments & Progress Tracking',
     description:
       'Stay accountable with regular tests, a structured study plan, performance analytics, and feedback to fine-tune your prep. Review sessions to reinforce weak areas.'
